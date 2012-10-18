@@ -218,7 +218,7 @@ Kelayakan: -
 Kemungkinan berhasil, dengan alasan :
 - Aplikasi dapat memupuk sikap peduli lingkungan
 - Aplikasi mudah digunakan(user friendly).
-- Aplikasi dapat digunakan semua ponsel pintar berbasis android.
+- Aplikasi dapat digunakan semua ponsel pintar berbasis android 2.2 ke atas
 
 Kemungkinan tidak berhasil, dengan alasan :
 - Tidak sesuai dengan kebutuhan pasar.
@@ -241,9 +241,6 @@ Segi Usaha :
 
 ANALISIS KEBUTUHAN
 Software yang digunakan :
-Eclipse
-Cocos2D
-AndEngines
-   -  OpenGL ES 2.0
-   -  Android 4.0.3
-   -  Emulator 
+   -Eclipse
+   -Cocos2D Framework
+   -OpenGL ES 2.0
