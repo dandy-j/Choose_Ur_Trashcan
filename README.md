@@ -209,3 +209,38 @@ lihat ~meta.yaml~ pada salah satu tabel yang memilikinya.
 [7] https://github.com/dandy-j/Choose Ur Trashcan
 [8] http://metacpan.org/module/Data::Sah
 [9] http://metacpan.org/module/Perinci::Sub::Gen::AccessTable
+
+Planning
+
+Tahap 1
+Lingkup Project : Game Mobile Berbasis Android
+Kelayakan: -
+Kemungkinan berhasil, dengan alasan :
+- Aplikasi dapat memupuk sikap peduli lingkungan
+- Aplikasi mudah digunakan(user friendly).
+- Aplikasi dapat digunakan semua ponsel pintar berbasis android 2.2 ke atas
+
+Kemungkinan tidak berhasil, dengan alasan :
+- Tidak sesuai dengan kebutuhan pasar.
+- Aplikasi tidak lengkap karena terdapat hambatan dalam pengerjaan.
+
+Analisa Resiko
+- Animo user (pasar) pada aplikasi ini    mungkin  tidak sesuai.
+
+Sumber
+- Internet.
+- Riset keadaan lingkungan.
+
+Tahap 2
+Estimasi waktu dan usaha :
+Segi waktu :
+- Waktu yang melebihi batas dari waktu yang telah ditentukan (Melebihi deadline).
+Segi Usaha :
+- Termotivasi untuk membuat aplikasi.
+- Harus ada sinkronisasi antar tiap bagian.
+
+ANALISIS KEBUTUHAN
+Software yang digunakan :
+   -Eclipse
+   -Cocos2D Framework
+   -OpenGL ES 2.0
