@@ -185,11 +185,18 @@ lihat ~meta.yaml~ pada salah satu tabel yang memilikinya.
 
 ** Pesan commit
 
+Commit berupa file yang diuploadkan dari local repository (komputer masing-masing)
+Masuk ke repository masing-masing
 1. Boleh dalam bahasa Indonesia atau Inggris (saya memperkirakan semua
-  kontributor rata-rata adalah orang Indonesia atau mereka yang kenal bahasa
-  Indonesia).
-
-2. Ikuti panduan pesan commit git yang baik di: TODO
+   kontributor rata-rata adalah orang Indonesia atau mereka yang kenal bahasa
+   Indonesia).
+2. Masuk ke repository masing-masing
+3. Klik tools
+4. Klik Open in explorer
+5. Folder github akan terbuka
+6. Copy file dalam computer ke folder github tersebut
+7. Ketik pesan Commit
+8. Klik OK
 
 ** Pesan Pribadi
 1. Readme ini hanya sebagian data yang saya buat. Tidak menutup kemungkinan 
