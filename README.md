@@ -1,13 +1,14 @@
-* Tentang Choose Ur Trashcan a.k.a Mulung The Game
 
-Choose Ur Trascan a.k.a Mulung The Game [0] adalah permainan berbasis android yang dikembangkan untuk 
+* Tentang Choose Ur Trashcan
+
+Choose Ur Trascan [0] adalah permainan berbasis android yang dikembangkan untuk 
 memupuk sikap peduli lingkungan bagi pengguna dan masyarakat luas. Fokus cakupan 
 adalah permainan berbasis android single touch yang dapat diaplikasikan di semua 
 ponsel pintar berbasis android.
 
 Penyajian aplikasi pada permainan ini diusahakan seakurat mungkin terhadap data 
 
-* Tentang repositori Choose Ur Trashcan a.k.a Mulung The Game
+* Tentang repositori Choose Ur Trashcan
 
 Repositori ini berisi seluruh data yang ada di Choose Ur Trashcan
 
@@ -216,7 +217,6 @@ Masuk ke repository masing-masing
 [7] https://github.com/dandy-j/Choose Ur Trashcan
 [8] http://metacpan.org/module/Data::Sah
 [9] http://metacpan.org/module/Perinci::Sub::Gen::AccessTable
-
 Planning
 
 Tahap 1
