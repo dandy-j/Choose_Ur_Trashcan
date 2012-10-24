@@ -1,0 +1,70 @@
+CHOOSE UR TRASHCAN 
+
+KELOMPOK 6 :
+
+HARI KURNIAWAN 		TEAM LEADER + PD PLANNING	100533406919
+MOH ZAINUL HAQ		PD DESIGN			100533402637
+KARTIKA DEWANTARI	PD ANALISIS			100533402610
+MIKO DJATMIKO		PD IMPLEMENTASI			100533404329
+MUQODIMAH NUR LESTARI	PD DOCUMENTASI			100533402640
+
+Choose Ur Trascan [0] adalah permainan berbasis android yang dikembangkan untuk 
+memupuk sikap peduli lingkungan bagi pengguna dan masyarakat luas. Fokus cakupan 
+adalah permainan berbasis android single touch yang dapat diaplikasikan di semua 
+ponsel pintar berbasis android.
+
+Penyajian aplikasi pada permainan ini diusahakan seakurat mungkin terhadap data 
+
+* Tentang repositori Choose Ur Trashcan "
+
+Repositori ini berisi seluruh data yang ada di Choose Ur Trashcan
+
+* Bagaimana menggunakan data ini? (a.k.a.: Panduan bagi pengguna)
+Mayoritas data (terletak di direktori ~table/~) disimpan dalam format CSV dan
+dapat dengan mudah dimuat ke program spreadsheet, diimpor ke database
+relasional, diparse oleh skrip, dll. Akan disediakan juga skrip (di ~bin/~)
+untuk mengimpor ke database SQL, mengupdate data di database SQL, dll.
+
+
+* Panduan bagi kontributor
+
+1. Baca dokumen ini hingga selesai.
+2. Mendaftar ke github [6] jika belum.
+3. Fork proyek ini [7].
+4. Kirimkan patch (pull request) atau laporkan isu lewat github.
+5. Jika Anda berminat ikut menjadi editor, silakan hubungi [4]. Tugas editor
+   adalah mengecek akurasi data/perubahan data.
+
+
+
+Penjelasan Icon TrashDroid :
+macam macam gambar sampah ada : Pisang , soda , air ku, kulit apel dan Daun.
+dari maccam macam tersebut,kita membedakan sampah sampah tersebut dibagi sesuai dengan jenis dan bagiannya.
+1. Sampah Organik	 :daun , pisang, apel
+2. Sampah UnOrganik	 :tempat minum air ku
+3. sampah Besi		 :Kaleng soda
+
+
+
+
+WAKTU PENGERJAAN  :
+
+Waktu 4 bulan (september - desember)
+
+PLANNING 	= 2 MINGGU
+ANALISS 	= 2 MINGGU
+DESIGN 		= 1 MINGGU
+IMPLEMENTASI	= 9 MINGGU
+DOCUMENTASI	= DARI MINGGU KE 1 - 15.
+
+
+software yang di gunakan :
+eclipe
+android SDK 2.2 - 4.0.3
+
+
+
+
+
+
+
