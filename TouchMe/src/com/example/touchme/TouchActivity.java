@@ -5,6 +5,7 @@ import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.opengl.CCGLSurfaceView;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,14 +19,17 @@ public class TouchActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState)
 	{
 	    super.onCreate(savedInstanceState);
-	 
+	    Display displayparm=  getWindowManager().getDefaultDisplay();
+	    int width= displayparm.getWidth();
+	    int scalex=480/displayparm.getWidth();
+	    int Height= displayparm.getHeight();
+	    int scaley=800/displayparm.getHeight();
+	    getWindow().setLayout(width*scalex, Height*scaley);
+	    TouchIt.scale(scalex, scaley);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    getWindow().setLayout(480, 800);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	 
 	    _glSurfaceView = new CCGLSurfaceView(this);
-	 
 	    setContentView(_glSurfaceView);
 	}
 	@Override
