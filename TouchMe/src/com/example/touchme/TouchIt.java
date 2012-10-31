@@ -1,18 +1,13 @@
 package com.example.touchme;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import org.andengine.input.touch.TouchEvent;
-import org.cocos2d.events.CCTouchDispatcher;
 import org.cocos2d.layers.CCColorLayer;
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.nodes.CCNode;
 import org.cocos2d.nodes.CCSprite;
-import org.cocos2d.nodes.CCSpriteSheet;
-import org.cocos2d.nodes.CCTextureCache;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
@@ -23,97 +18,56 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
-import android.widget.TextView;
 
 public class TouchIt extends CCColorLayer {
-	public boolean[] dragging;
-	public CCSprite  recycled = CCSprite.sprite("trash1.png");
-	public CCSprite  unrecycled = CCSprite.sprite("trash3.png");
-	public CCSprite  iron = CCSprite.sprite("trash2.png");
-	public CCSprite[]  trash;
+	protected ArrayList<CCSprite> _sampah;
+	protected ArrayList<CCSprite> _tsampah;
+	public int del=4;
+	public boolean dragging0=false,dragging1=false,dragging2=false;
+	public int tumpuk=0;
+	public CCSprite  recycled = CCSprite.sprite("Recycled.png");
+	public CCSprite  unrecycled = CCSprite.sprite("Unrecycled.png");
+	public CCSprite  iron = CCSprite.sprite("Iron.png");
+	public CCSprite  recycledtrash = CCSprite.sprite("RecycledTrash.png");
+	protected CCSprite  unrecycledtrash = CCSprite.sprite("UnRecycledTrash.png");
+	public CCSprite  irontrash = CCSprite.sprite("IronTrash.png");
 	public int flag0=0,flag1=0,flag2=0;
+	
+	float touchX;
+	float touchY;
 	int offX; 
     int offY; 
-    public static int scalex=0;
-    public static int scaley=0;
+ 
 	public static CCScene scene()
 	{
 	    CCScene scene = CCScene.node();
-	    CCColorLayer layer = new TouchIt(ccColor4B.ccc4(253,209,161,255));
+	    CCColorLayer layer = new TouchIt(ccColor4B.ccc4(0, 0, 0, 0));
+	 
 	    scene.addChild(layer);
+	 
 	    return scene;
 	}
-	public static void scale(int x,int y){
-		scalex=x;
-		scaley=y;
-		StringBuilder a = new StringBuilder();
-		String b;
-		a.append(scalex);
-		b = a.toString();
-		Log.d("scale", b);
-	}
-	
 	public void addsampah(){
-		
-		trash = new CCSprite[15];
-		Random rand = new Random();
-		int x,y;
+		Random rando = new Random();
 		 CGSize winSize = CCDirector.sharedDirector().displaySize();
-		
-		 for (int i=0;i<15;i++){
-			 dragging = new boolean[15];
-			 dragging[i]=false;
-			 
-			 if (i<5){
-				 y=rand.nextInt((int)winSize.height-180);
-				 x=rand.nextInt((int)winSize.width-180);
-					 trash[i] = new CCSprite().sprite("kulit apel.png");
-					 trash[i].setScale(scalex);
-					 
-					 trash[i].setPosition(CGPoint.ccp(x+50,y+100));
-					 addChild(trash[i],0,i);
-					 flag0=1;
-				 }
-			 if (i<10 && i>4){
-				 
-					 y=rand.nextInt((int)winSize.height-180);
-					 x=rand.nextInt((int)winSize.width-180);
-					 trash[i] = new CCSprite().sprite("botol plastik.png");
-					 trash[i].setScale(scalex);
-					 
-					 trash[i].setPosition(CGPoint.ccp(x+50,y+100));
-					 addChild(trash[i],0,i);
-					 flag1=1;
-				 }
-			 if (i<15 && i>9){
-				 
-				 y=rand.nextInt((int)winSize.height-180);
-				 x=rand.nextInt((int)winSize.width-180);
-					 trash[i] = new CCSprite().sprite("baut.png");
-					 trash[i].setScale(scalex);
-					 
-					 trash[i].setPosition(CGPoint.ccp(x+50,y+100));
-					 addChild(trash[i],0,i);
-					 flag2=1;
-				 }
-		 }
-			 }
-		 
-	
+			recycledtrash.setPosition(CGPoint.ccp(recycledtrash.getContentSize().width/2.0f,winSize.height-recycled.getContentSize().height/2.0f));
+			addChild(recycledtrash);
+			flag0=1;
+			unrecycledtrash.setPosition(CGPoint.ccp(winSize.width/2.0f,winSize.height-unrecycled.getContentSize().height/2.0f));
+			addChild(unrecycledtrash);
+			flag1=1;
+			irontrash.setPosition(CGPoint.ccp(winSize.width-irontrash.getContentSize().width/2.0f,winSize.height-iron.getContentSize().height/2.0f));
+			addChild(irontrash);
+			flag2=1;
+	}
 	public void tempatsampah(){
 		 CGSize winSize = CCDirector.sharedDirector().displaySize();
 		    
-		    recycled.setPosition(CGPoint.ccp(winSize.width-(recycled.getContentSize().width/2.0f),recycled.getContentSize().height/2.0f));
-		    recycled.setScale(scalex);
-		   
+		    recycled.setPosition(CGPoint.ccp(recycled.getContentSize().width/2.0f,recycled.getContentSize().height/2.0f));
 		    addChild(recycled);
-		    unrecycled.setPosition(CGPoint.ccp(unrecycled.getContentSize().width/2.0f,unrecycled.getContentSize().height/2.0f));
-		    unrecycled.setScale(scalex);
-		    
+		    unrecycled.setPosition(CGPoint.ccp(winSize.width / 2.0f,unrecycled.getContentSize().height/2.0f));
 		    addChild(unrecycled);
-		    iron.setPosition(CGPoint.ccp(winSize.width/2.0f,iron.getContentSize().height/2.0f));
-		    iron.setScale(scalex);
-		   
+		    iron.setPosition(CGPoint.ccp(winSize.width - (iron.getContentSize().width/2.0f),iron.getContentSize().height/2.0f));
 		    addChild(iron);
 		
 	}
@@ -132,10 +86,10 @@ public class TouchIt extends CCColorLayer {
 	    super(color);
 	    this.setIsTouchEnabled(true);
 	    CGSize winSize = CCDirector.sharedDirector().displaySize();
-	    //winSize.set(480, 800);
+	    
 	    tempatsampah();
-	    addsampah();
-	    //this.schedule("gamelogic", 1.0f);
+	    //addsampah();
+	    this.schedule("gamelogic", 5.0f);
 	    
 	}
 	@Override
@@ -143,27 +97,23 @@ public class TouchIt extends CCColorLayer {
 		CGPoint location = CCDirector.sharedDirector().convertToGL(CGPoint.ccp(event.getX(), event.getY()));
 		offX = (int)(location.x); 
 	    offY = (int)(location.y); 
-	    //CGRect pointt = CGRect.make(240,240,100,100);
-	    for (int i=0;i<15;i++){
-	    	if (i<5){
-	    		if (trash[i].getBoundingBox().contains(offX, offY)==true){
+	    CGRect pointt = CGRect.make(240,240,100,100);
+		if (recycledtrash.getBoundingBox().contains(offX, offY)){
 			Log.d("nha","bok");
-			dragging[i]=true;
+			dragging0=true;
 			return true;
-		}}
-	    if (i<10 && i>4){
-	    	if (trash[i].getBoundingBox().contains(offX, offY)){
+			
+		}
+		if (unrecycledtrash.getBoundingBox().contains(offX, offY)){
 			Log.d("nho","bok");
-			dragging[i]=true;
-			return true;
-		}}
-	    if(i<15 && i>9)
-	    	if (trash[i].getBoundingBox().contains(offX, offY)){
-			Log.d("nhe","bok");
-			dragging[i]=true;
+			dragging1=true;
 			return true;
 		}
-	    }
+		if (irontrash.getBoundingBox().contains(offX, offY)){
+			Log.d("nhe","bok");
+			dragging2=true;
+			return true;
+		}
 		return true;
 	}
 	@Override
@@ -171,50 +121,57 @@ public class TouchIt extends CCColorLayer {
 		CGPoint location = CCDirector.sharedDirector().convertToGL(CGPoint.ccp(event.getX(), event.getY()));
 		offX = (int)(location.x); 
 	    offY = (int)(location.y); 
-	    for (int i=0;i<15;i++){
-	    if (dragging[i]==true){
-			trash[i].setPosition(offX, offY);
+		if (dragging0==true){
+			recycledtrash.setPosition(offX, offY);
 			}
-		if (dragging[i]==true){
-			trash[i].setPosition(offX, offY);
+		else if (dragging1==true){
+			unrecycledtrash.setPosition(offX, offY);
 			Log.d("","");
 		}
-		if (dragging[i]==true){
-			trash[i].setPosition(offX, offY);
+		else if (dragging2==true){
+			irontrash.setPosition(offX, offY);
 		}	
-	    }
+		
 		
 		return true;
 	}
 	@Override
 	public boolean ccTouchesEnded(MotionEvent event) {
+		
+		
 		CGSize winSize = CCDirector.sharedDirector().displaySize();
-		for (int i=0;i<15;i++){
-			if (i<5){
-	    if (dragging[i]==true){
-	    	if (CGRect.intersects(recycled.getBoundingBox(),trash[i].getBoundingBox())){
-				trash[i].setPosition(CGPoint.ccp(-1000,0));
-				flag0=0;
-				}
-	    }}
-			if(i<10 && i>4){
-	    if (dragging[i]==true){
-	    	if (CGRect.intersects(unrecycled.getBoundingBox(),trash[i].getBoundingBox())){
-				trash[i].setPosition(CGPoint.ccp(-1000,0));
+		
+	    if (dragging0==true){
+	    	if (CGRect.intersects(recycled.getBoundingBox(),recycledtrash.getBoundingBox())){
+				recycledtrash.setPosition(CGPoint.ccp(-1000,0));
 				flag1=0;
 				}
+			else{
+				recycledtrash.setPosition(CGPoint.ccp(recycledtrash.getContentSize().width/2.0f,winSize.height-recycled.getContentSize().height/2.0f));
+				Log.d("kwok","kwok");
 			}}
-			if(i<15 && i>9){
-	    if (dragging[i]==true){
-	    	if (CGRect.intersects(iron.getBoundingBox(),trash[i].getBoundingBox())){
-				trash[i].setPosition(CGPoint.ccp(-1000,0));
+	    
+	    else if (dragging1==true){
+	    	if (CGRect.intersects(unrecycled.getBoundingBox(),unrecycledtrash.getBoundingBox())){
+				unrecycledtrash.setPosition(CGPoint.ccp(-1000,0));
 				flag2=0;
 				}
-	    	}}
-		}
-		for (int i=0;i<15;i++){
-	    dragging[i] = false;
-		}
+			else{
+				unrecycledtrash.setPosition(CGPoint.ccp(unrecycledtrash.getContentSize().width/2.0f,winSize.height-unrecycled.getContentSize().height/2.0f));
+				Log.d("kwok","kwok");
+			}}
+	    else if (dragging2==true){
+	    	if (CGRect.intersects(iron.getBoundingBox(),irontrash.getBoundingBox())){
+				irontrash.setPosition(CGPoint.ccp(-1000,0));
+				flag1=0;
+				}
+			else{
+				irontrash.setPosition(CGPoint.ccp(irontrash.getContentSize().width/2.0f,winSize.height-iron.getContentSize().height/2.0f));
+				Log.d("kwok","kwok");
+			}}
+	    dragging0 = false;
+		dragging1 = false;
+		dragging2 = false;
 		return true;
 		 
 	}
