@@ -19,13 +19,17 @@ public class TouchActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState)
 	{
 	    super.onCreate(savedInstanceState);
+	    DisplayMetrics metrics = new DisplayMetrics();
+	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 	    Display displayparm=  getWindowManager().getDefaultDisplay();
+	    TouchIt.scale( metrics.density);
+	   
 	    int width= displayparm.getWidth();
 	    int scalex=480/displayparm.getWidth();
 	    int Height= displayparm.getHeight();
 	    int scaley=800/displayparm.getHeight();
 	    getWindow().setLayout(width*scalex, Height*scaley);
-	    TouchIt.scale(scalex, scaley);
+	    
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
