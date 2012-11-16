@@ -1,0 +1,12 @@
+Untuk rencana game nanti seperti apa sudah dijelaskan di postingan "perencaan game", namun kenyataan berkata lain.
+Kelompok kami hanya akan membuat project "Mulung the Game" ini dengan spesifikasi seperti ini :
+- hanya ada 1 level
+- waktu maksimal 45 detik untuk 45 sampah yang di random tiap beberapa detik
+
+Mengapa dipersempit?
+Karena waktu yang sudah cukup dekat dengan deadline, dengan waktu kurang dari 2 minggu ini akan segera menyelesaikan masalah :
+1. High Score / Scoring
+2. Help
+3. Ending game
+4. Animasi
+5. Backsound
