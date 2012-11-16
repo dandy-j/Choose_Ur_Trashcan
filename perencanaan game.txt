@@ -1,0 +1,18 @@
+Kelompok kami sudah mencapai akhir pengerjaan dari level 1 (Sabtu, 29 Oktober 2012). Namun terdapat kendala dalam jenis game tersebut. 
+Apakah game ini akan diteruskan ke level 2, dengan perbedaan misi tiap level atau berganti jalur ke game biasa (misi yang sama namun dengan tingkat kesukaran yang berbeda)
+Untuk menjawab akan hal ini, maka saya sebagai analis ditugaskan untuk melakukan riset tentang "apakah game yang digemari lebih ke story boartd atau tidak? dan apakah gamer lebih suka gameplay yang gampang hingga susah (next level), atau gameplay yang berbeda-beda tiap level?"
+Dan mendapat jawaban atas pertanyaan-pertanyaan itu, yaitu kebanyakan anak laki-laki lebih ke game story board, namun berbeda dengan anak perempuan, lebih ke game tanpa story board. Dan untuk pertanyaan kedua, yaitu gamer lebih suka gameplay yang gampang hingga susah (next level) daripada game yang berbeda-beda tiap level.
+Jadi atas keputusan kelompok, maka kelompok kami akan membuat game dengan deskripsi singkat sebagai berikut :
+1. Game 1 
+  - spawn time random
+  - tiap spawn, sampah yang tersisa diganti yang baru
+  - tantangannya adalah mencapai poin tertentu dalam waktu yang ditentukan
+  - obstaclenya adalah ketika sampah sudah bersih, tapi belum waktunya spawning (nyita waktu)
+2. Game 2
+  - sampah jatuh dengan random spawning time yang jauh lebih cepat, tapi memungkinkan pemain memasukkan ke tong sampah (2-4 detik)
+  - tantangannya adalah membersihkan semua sampah hingga 'gauge' penuh
+  - obstaclenya adalah adanya kemungkinan sampah menutupi tong, hingga player harus memindahkan sampah dahulu
+
+
+
+
