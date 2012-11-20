@@ -9,5 +9,8 @@
     <string name="exit">Exit</string>
     <string name="close">Close</string>
     <string name="splashChk">Dont show this message again</string>
+    <string name="levelSelect">Level</string>
+    <string name="highscore">High Scores List</string>
+    <string name="zeroscore">00:00</string>
 
 </resources>

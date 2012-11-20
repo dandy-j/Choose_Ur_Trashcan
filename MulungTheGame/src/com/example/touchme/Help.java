@@ -8,21 +8,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class About extends Activity implements OnClickListener {
+public class Help extends Activity implements OnClickListener {
 	
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-		setContentView(R.layout.main);
-		//View close = findViewById(R.id.closeAbout);
-		//ImageView image = (ImageView)findViewById(R.id.aboutImg);
-		//Animation hyperspaceJump = AnimationUtils.loadAnimation(this, R.anim.zoom);
-		//image.startAnimation(hyperspaceJump);
-		//close.setOnClickListener(this);
+		setContentView(R.layout.help);
 	}
 
 	@Override
 	public void onClick(View arg0) {
-		this.finish();
+
 	}
 
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" android:background="@android:color/black">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/highscore"
+    android:textSize="36dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score4"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score6"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score7"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score8"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score9"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+<TextView
+    android:id="@+id/score10"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/zeroscore"
+    android:textSize="28dp"
+    android:textColor="@android:color/white" />
+</LinearLayout>
+
+</RelativeLayout>
