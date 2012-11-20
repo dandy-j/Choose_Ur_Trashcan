@@ -1,7 +1,8 @@
 Untuk rencana game nanti seperti apa sudah dijelaskan di postingan "perencaan game", namun kenyataan berkata lain.
+dengan berdasarkan kendala yang kami hadapi, yang menyebabkan kami melakukan review ulang terhadap fungsionalitas game, maka 
 Kelompok kami hanya akan membuat project "Mulung the Game" ini dengan spesifikasi seperti ini :
-- hanya ada 1 level
-- waktu maksimal 45 detik untuk 45 sampah yang di random tiap beberapa detik
+- terdapat 1-9 level
+- waktu maksimal berbeda-beda
 
 Mengapa dipersempit?
 Karena waktu yang sudah cukup dekat dengan deadline, dengan waktu kurang dari 2 minggu ini akan segera menyelesaikan masalah :

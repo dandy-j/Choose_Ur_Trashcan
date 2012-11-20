@@ -1,13 +1,17 @@
-review berjalan dengan baik!
+review berjalan dengan baik! :D
 hingga sekarang sudah mampu memilih level.
 level tersedia dari 1-5, dan terdapat random tempat sampah untuk level 4 dan 5.
 level 1 = 9 sampah. waktu maks 10 detik, minimal 5 detik. artinya ada kemungkinan respawn sampah pada detik ke 5-10.
 level 2 = 18 sampah. waktu maks 20, min 10 detik.
 level 3 = 27 sampah. waktu maks 30, min 15 detik.
 level 4 = 36 sampah. waktu maks 40, min 20 detik.
-	 untuk random tempat sampah, dilakukan random dengan cara 20/2.
+	 untuk random tempat sampah, dilakukan random dengan cara waktu random (21-40 detik)/2.
 level 5 = 45 sampah. waktu maks 50, min 25 detik. 
-	`untuk random tempat sampah, dilakukan random dengan cara 25/2.
+	`untuk random tempat sampah, dilakukan random dengan cara waktu random (26-50 detik)/4.
 progress juga telah mencakup adanya timer, berbeda dengan jum'at lalu, yang hanya berupa angka, kini berubah menjadi seperti stopwatch!
 
 tinggal bagian help, high score, sama perbaikan tampilan sampah. :)
+
+terhitung tanggal 21 November, terdapat sedikit perubahan, yakni adanya penambahan level, mulai level 1-9. waktu maks dapat dihitung dengan rumus level*9+level.
+pada level 6-7, terdapat obstacle yang sama dengan yang terjadi pada level 4 versi sebelumnya, sedangkan pada level 8-9, terdapat obstacle yang sama dengan yang
+terjadi pada level 5 versi sebelumnya :D

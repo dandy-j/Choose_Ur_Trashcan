@@ -7,7 +7,7 @@ Jadi atas keputusan kelompok, maka kelompok kami akan membuat game dengan deskri
   - spawn time random
   - tiap spawn, sampah yang tersisa diganti yang baru
   - tantangannya adalah mencapai poin tertentu dalam waktu yang ditentukan
-  - obstaclenya adalah ketika sampah sudah bersih, tapi belum waktunya spawning (nyita waktu)
+  - obstaclenya adalah ketika sampah belum bersih, namun sudah respawn :D
 2. Game 2
   - sampah jatuh dengan random spawning time yang jauh lebih cepat, tapi memungkinkan pemain memasukkan ke tong sampah (2-4 detik)
   - tantangannya adalah membersihkan semua sampah hingga 'gauge' penuh
