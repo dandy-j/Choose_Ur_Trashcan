@@ -6,7 +6,9 @@ import org.cocos2d.opengl.CCGLSurfaceView;
 
 import android.R;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 
 public class TouchActivity extends Activity {
 	protected CCGLSurfaceView _glSurfaceView;
+	//public boolean skipSplash = prefs.getBoolean("skipSplash", false);
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -28,8 +31,7 @@ public class TouchActivity extends Activity {
 	    int scalex=480/displayparm.getWidth();
 	    int Height= displayparm.getHeight();
 	    int scaley=800/displayparm.getHeight();
-	    getWindow().setLayout(width*scalex, Height*scaley);
-	    
+	    getWindow().setLayout(width*scalex, Height*scaley);    
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -37,6 +39,7 @@ public class TouchActivity extends Activity {
 	    setContentView(_glSurfaceView);
 	    
 	}
+	
 	@Override
 	public void onStart()
 	{

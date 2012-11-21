@@ -1,37 +1,24 @@
 package com.example.touchme;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import org.andengine.input.touch.TouchEvent;
-import org.cocos2d.actions.instant.CCCallFuncN;
-import org.cocos2d.actions.interval.CCMoveTo;
-import org.cocos2d.actions.interval.CCSequence;
-import org.cocos2d.events.CCTouchDispatcher;
+
 import org.cocos2d.layers.CCColorLayer;
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCLabel;
-import org.cocos2d.nodes.CCNode;
 import org.cocos2d.nodes.CCSprite;
-import org.cocos2d.nodes.CCSpriteSheet;
-import org.cocos2d.nodes.CCTextureCache;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 import org.cocos2d.types.ccColor3B;
 import org.cocos2d.types.ccColor4B;
-import android.R.string;
-import android.util.Log;
+
 import android.content.Context;
-import android.hardware.Camera.Area;
-import android.util.DisplayMetrics;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class TouchIt extends CCColorLayer {
 	int[] time;//array untuk timer
@@ -40,11 +27,11 @@ public class TouchIt extends CCColorLayer {
 	public CCSprite[]  trash;//array sebagai sampah
 	boolean respawn=true;//respawn
 	public CCLabel labelScore,labelWin;//label timer 
-	int offX,offY,random=0,countScore=0,chek=0,mem=0; 
+	int offX,offY,random=0,countScore=0,chek=0,mem=0,timer=0; 
 	public static int quantity;
     public CCSprite template = new CCSprite().sprite("HVGA/trash1.png");//template ukuran gambar
-    public static float scalex=0;//variabel penyimpanan DP
-    public static int scale=0,lvl=0;
+    public static float scalex,scale;//variabel penyimpanan DP
+    public static int lvl=0;
 	public static CCScene scene(){//menggambar tampilan melalui framework cocos2d
 	    CCScene scene = CCScene.node();
 	    CCColorLayer layer = new TouchIt(ccColor4B.ccc4(253,209,161,255));
@@ -57,15 +44,7 @@ public class TouchIt extends CCColorLayer {
 	}
 	public static void scale(float x){//mendapatkan DP setiap tipe Android
 		scalex=x;
-		if (scalex<1) {
-			scale=0;
-		}
-		if (scalex==1) {
-			scale=1;
-		}
-		if (scalex>1) {
-			scale=2;
-		}
+		scale=scalex;
 	}
 	public void randomine(){//digunakan untuk merandom posisi objek di dalam game. selanjutnya akan disebut respawn
 		Random rand = new Random();
@@ -113,6 +92,7 @@ public class TouchIt extends CCColorLayer {
 		trash = new CCSprite[quantity];
 		trashcan = new CCSprite[3];
 		dragging=new boolean[quantity];
+		//trashcan[0].setContentSize(trashcan[0].getContentSize().width*2, trashcan[0].getContentSize().height*2);
 		Random rand = new Random();
 		int x,y;
 		 CGSize winSize = CCDirector.sharedDirector().displaySize();
@@ -157,6 +137,7 @@ public class TouchIt extends CCColorLayer {
 			}}
 		 if (scalex<=1){//menentukan gambar ketika DPnya kecil
 			 for (int i=0;i<3;i++){
+				 
 				 trashcan[i] = new CCSprite().sprite("MVGA/trash"+(i+1)+".png");
 				if (i==0){
 				 trashcan[i].setPosition(CGPoint.ccp(trashcan[i].getContentSize().width/2.f, trashcan[i].getContentSize().height/2.f));
@@ -170,6 +151,7 @@ public class TouchIt extends CCColorLayer {
 				addChild(trashcan[i],0,i);
 			 }
 			for (int i=0;i<quantity;i++){
+				//trash[i].setScale(scalex);
 				dragging[i]=false;
 					x=rand.nextInt((int)winSize.width-100);
 					y=rand.nextInt((int)winSize.height *3/5);
@@ -195,12 +177,12 @@ public class TouchIt extends CCColorLayer {
 					addChild(trash[i],0,i);
 			}
 		 }
-		  }
+		 }
 	public void update(float t){/*fungsi yang digunakan untuk dilakukan berdasarkan waktu (schedular). hal ini meliputi
 		timer, respawning, hingga kondisi menang-kalah*/ 
 		CGSize winSize = CCDirector.sharedDirector().displaySize();
 		countScore++;
-		
+		timer++;
 		if (countScore<=random){//menentukan kondisi win-lose, serta respawn sampah setiap waktu yuang di generate secara random
 			if(lvl>5){
 			if (countScore==random/2 || countScore==random){
@@ -214,7 +196,6 @@ public class TouchIt extends CCColorLayer {
 			if (chek>=quantity){
 				labelWin.setPosition(winSize.width/2.f,winSize.height/2.f);
 				labelWin.setString("YOU WIN!");
-				
 				respawn=false;
 				labelScore.setPosition(-1000,0);
 			}
