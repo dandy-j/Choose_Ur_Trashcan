@@ -45,8 +45,9 @@ public class Menu extends Activity implements OnClickListener {
 				builder.setTitle(getString(R.string.levelSelect));
 				builder.setItems(levels, new DialogInterface.OnClickListener() {
 				    public void onClick(DialogInterface dialog, int item) {
-				    	TouchIt.level(item+1);
-				    	Intent game = new Intent(Menu.this,TouchActivity.class);
+				    	TouchIt t = new TouchIt();
+				    	t.level(item+1);
+				    	Intent game = new Intent(Menu.this,TouchIt.class);
 						startActivity(game);
 				    }
 				});

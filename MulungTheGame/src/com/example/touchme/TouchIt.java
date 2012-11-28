@@ -1,336 +1,343 @@
 package com.example.touchme;
 
+
 import java.util.Random;
 
-import org.cocos2d.layers.CCColorLayer;
-import org.cocos2d.layers.CCScene;
-import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.nodes.CCLabel;
-import org.cocos2d.nodes.CCSprite;
-import org.cocos2d.sound.SoundEngine;
-import org.cocos2d.types.CGPoint;
-import org.cocos2d.types.CGRect;
-import org.cocos2d.types.CGSize;
-import org.cocos2d.types.ccColor3B;
-import org.cocos2d.types.ccColor4B;
+import org.anddev.andengine.engine.Engine;
+import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.timer.ITimerCallback;
+import org.anddev.andengine.engine.handler.timer.TimerHandler;
+import org.anddev.andengine.engine.options.EngineOptions;
+import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
+import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.text.ChangeableText;
+import org.anddev.andengine.entity.text.Text;
+import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.ui.activity.BaseGameActivity;
+import org.anddev.andengine.util.HorizontalAlign;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Display;
 
-public class TouchIt extends CCColorLayer {
-	int[] time;//array untuk timer
-	public boolean[] dragging;//array agar objek dapat di drag 
-	public CCSprite[] trashcan;//array sebagai tempat sampah
-	public CCSprite[]  trash;//array sebagai sampah
-	boolean respawn=true;//respawn
-	public CCLabel labelScore,labelWin;//label timer 
-	int offX,offY,random=0,countScore=0,chek=0,mem=0,timer=0; 
-	public static int quantity;
-    public CCSprite template = new CCSprite().sprite("HVGA/trash1.png");//template ukuran gambar
-    public static float scalex,scale;//variabel penyimpanan DP
-    public static int lvl=0;
-	public static CCScene scene(){//menggambar tampilan melalui framework cocos2d
-	    CCScene scene = CCScene.node();
-	    CCColorLayer layer = new TouchIt(ccColor4B.ccc4(253,209,161,255));
-	    scene.addChild(layer);
-	    return scene;
-	}
-	public static void level(int lv){//mendapatkan level yang di inginkan
-		lvl=lv;
-		quantity=lvl*9;
-	}
-	public static void scale(float x){//mendapatkan DP setiap tipe Android
-		scalex=x;
-		scale=scalex;
-	}
-	public void randomine(){//digunakan untuk merandom posisi objek di dalam game. selanjutnya akan disebut respawn
-		Random rand = new Random();
-		int x,y;
-		CGSize winSize = CCDirector.sharedDirector().displaySize();
-		for (int i=0;i<quantity;i++){
-				x=rand.nextInt((int)winSize.width-100);
-				y=rand.nextInt((int)winSize.height *3/5);
-			trash[i].setPosition(x+trashcan[1].getContentSize().width/2.f,y+trashcan[1].getContentSize().height + trash[i].getContentSize().height/2.f);
-			}
-		
-		
-		random = rand.nextInt((quantity+lvl)/2)+(quantity+lvl)/2; 
-	}
-	public void randomcan(){
-		Random rand = new Random();
-		int ran=0;
-		CGSize winSize = CCDirector.sharedDirector().displaySize();
-		ran=rand.nextInt(3);
-		StringBuilder a = new StringBuilder();
-		String teks = a.append(ran).toString();
-		if (lvl>5){
-			switch (ran) {
-			case 0:
-				trashcan[0].setPosition(trashcan[0].getContentSize().width/2.f, trashcan[0].getContentSize().height/2.f);
-				trashcan[1].setPosition(winSize.width/2.f, trashcan[1].getContentSize().height/2.f);
-				trashcan[2].setPosition(winSize.width-trashcan[2].getContentSize().width/2.f, trashcan[2].getContentSize().height/2.f);
-				break;
-			case 1:
-				trashcan[0].setPosition(winSize.width/2.f, trashcan[0].getContentSize().height/2.f);
-				trashcan[1].setPosition(winSize.width-trashcan[1].getContentSize().width/2.f, trashcan[1].getContentSize().height/2.f);
-				trashcan[2].setPosition(trashcan[2].getContentSize().width/2.f, trashcan[2].getContentSize().height/2.f);
-				break;
-			case 2:
-				trashcan[0].setPosition(winSize.width-trashcan[0].getContentSize().width/2.f, trashcan[0].getContentSize().height/2.f);
-				trashcan[1].setPosition(trashcan[1].getContentSize().width/2.f, trashcan[1].getContentSize().height/2.f);
-				trashcan[2].setPosition(winSize.width/2.f, trashcan[2].getContentSize().height/2.f);
-				break;
-			default:
-				break;
-			}
-			}
-	}
-	public void addobj(){//digunakan untuk membuat objek di dalam game. fungsi ini hanya perlu dijalankan satu kali.
-		trash = new CCSprite[quantity];
-		trashcan = new CCSprite[3];
-		dragging=new boolean[quantity];
-		//trashcan[0].setContentSize(trashcan[0].getContentSize().width*2, trashcan[0].getContentSize().height*2);
-		Random rand = new Random();
-		int x,y;
-		 CGSize winSize = CCDirector.sharedDirector().displaySize();
-		 if (scalex>1){//menentukan gambar ketika DP besar 
-		 for (int i=0;i<3;i++){
-				 trashcan[i] = new CCSprite().sprite("HVGA/trash"+(i+1)+".png");
-				if (i==0){
-				 trashcan[i].setPosition(CGPoint.ccp(trashcan[i].getContentSize().width/2.f, trashcan[i].getContentSize().height/2.f));
-				}
-				if (i==1){
-					 trashcan[i].setPosition(CGPoint.ccp(winSize.width/2.f, trashcan[i].getContentSize().height/2.f));
-					}
-				if (i==2){
-					 trashcan[i].setPosition(CGPoint.ccp(winSize.width-trashcan[i].getContentSize().width/2.f, trashcan[i].getContentSize().height/2.f));
-					}
-				addChild(trashcan[i],0,i);
-			 }
-			for (int i=0;i<quantity;i++){
-				dragging[i]=false;
-					x=rand.nextInt((int)winSize.width-100);
-					y=rand.nextInt((int)winSize.height *3/5);
-				if(i<quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/1.png");}
-				else if(i<2*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/2.png");}
-				else if(i<3*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/3.png");}
-				else if(i<4*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/4.png");}
-				else if(i<5*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/5.png");}
-				else if(i<6*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/6.png");}
-				else if(i<7*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/7.png");}
-				else if(i<8*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/8.png");}
-				else if(i<9*quantity/9){
-					trash[i] = new CCSprite().sprite("HVGA/9.png");}
-				trash[i].setPosition(0,0);
-					addChild(trash[i],0,i);
-			}}
-		 if (scalex<=1){//menentukan gambar ketika DPnya kecil
-			 for (int i=0;i<3;i++){
-				 
-				 trashcan[i] = new CCSprite().sprite("MVGA/trash"+(i+1)+".png");
-				if (i==0){
-				 trashcan[i].setPosition(CGPoint.ccp(trashcan[i].getContentSize().width/2.f, trashcan[i].getContentSize().height/2.f));
-				}
-				if (i==1){
-					 trashcan[i].setPosition(CGPoint.ccp(winSize.width/2.f, trashcan[i].getContentSize().height/2.f));
-					}
-				if (i==2){
-					 trashcan[i].setPosition(CGPoint.ccp(winSize.width-trashcan[i].getContentSize().width/2.f, trashcan[i].getContentSize().height/2.f));
-					}
-				addChild(trashcan[i],0,i);
-			 }
-			for (int i=0;i<quantity;i++){
-				//trash[i].setScale(scalex);
-				dragging[i]=false;
-					x=rand.nextInt((int)winSize.width-100);
-					y=rand.nextInt((int)winSize.height *3/5);
-				if(i<quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/1.png");}
-				else if(i<2*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/2.png");}
-				else if(i<3*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/3.png");}
-				else if(i<4*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/4.png");}
-				else if(i<5*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/5.png");}
-				else if(i<6*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/6.png");}
-				else if(i<7*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/7.png");}
-				else if(i<8*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/8.png");}
-				else if(i<9*quantity/9){
-					trash[i] = new CCSprite().sprite("MVGA/9.png");}
-				trash[i].setPosition(x+trashcan[1].getContentSize().width/2.f,y+trashcan[1].getContentSize().height + trash[i].getContentSize().height/2.f);
-					addChild(trash[i],0,i);
-			}
-		 }
-		 }
-	public void update(float t){/*fungsi yang digunakan untuk dilakukan berdasarkan waktu (schedular). hal ini meliputi
-		timer, respawning, hingga kondisi menang-kalah*/ 
-		CGSize winSize = CCDirector.sharedDirector().displaySize();
-		countScore++;
-		timer++;
-		if (countScore<=random){//menentukan kondisi win-lose, serta respawn sampah setiap waktu yuang di generate secara random
-			if(lvl>5){
-			if (countScore==random/2 || countScore==random){
-				randomcan();
-			}}
-		else if (lvl>7){
-			if (countScore==random/4 || countScore==2*random/4 || countScore==3*random/4 || countScore==random){
-				randomcan();
-			}
-		}
-			if (chek>=quantity){
-				labelWin.setPosition(winSize.width/2.f,winSize.height/2.f);
-				labelWin.setString("YOU WIN!");
-				respawn=false;
-				labelScore.setPosition(-1000,0);
-			}
-		}
-		else{
-			countScore=0;
-			chek=0;
-			if (respawn==true){
-			randomine();
-			}
-		}
-		StringBuilder a = new StringBuilder();
-		String teks;
-		//timer
-				mem++;
-				time[3]=mem;
-				if (time[3]>9){
-					mem=0;
-					time[3]=0;
-					time[2]++;
-				}
-				if(time[2]>6){
-					time[2]=0;
-					time[1]++;
-				}
-				if(time[1]>9){
-					time[1]=0;
-					time[0]++;
-				}
-				if (time[0]>6){
-					for(int i =0;i<4;i++){
-						time[i]=0;
-					}
-				}		
-				teks = a.append(time[0]).toString();
-				teks = a.append(time[1]).toString();
-				teks = a.append(":").toString();
-				teks = a.append(time[2]).toString();
-				teks = a.append(time[3]).toString();
-			    labelScore.setString(teks);
-			    //timer
-	}
-	public TouchIt(ccColor4B color)
-	{//constructor, digunakan sebagai fungsi main.
-	    super(color);
-	    
-	    CGSize winSize = CCDirector.sharedDirector().displaySize();
-	    time = new int[4];
-	    for(int i =0;i<4;i++){
-	    	time[i]=0;
-	    }
-	    quantity=lvl*9;//memberikan nilai kepada variabel quantity. variabel quantity digunakan untuk men-set jumlah sampah
-	    labelScore = CCLabel.makeLabel("" + countScore, "DroidSans", 25);
-	    labelScore.setColor(ccColor3B.ccBLACK);
-	    addChild(labelScore, 11);
-	    labelScore.setTag(11);
-	    labelWin = CCLabel.makeLabel("" + countScore, "DroidSans", 25);
-	    labelWin.setColor(ccColor3B.ccBLACK);
-	    labelWin.setPosition(-1000,0);
-	    addChild(labelWin, 11);
-	    labelWin.setTag(11);
-	    this.setIsTouchEnabled(true);
-	    labelScore.setPosition(CGPoint.ccp(winSize.getWidth()-50, winSize.getHeight()-50));
-	    labelScore.setString("START!");
-	    addobj();
-	    randomine();//dipanggil sekali untuk mendapatkan nilai dari respawn yang dirandom.
-	    this.schedule("update",1.0f);
-	    
-	}
+public class TouchIt extends BaseGameActivity implements IOnSceneTouchListener {
+	private Camera mCamera;
+	private Scene mMainScene;
+	private BitmapTextureAtlas mFontTexture;
+	private Font mFont;
+	private ChangeableText score;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private TextureRegion garbage1,garbage2, garbage3,garbage4,garbage5,garbage6,garbage7,garbage8,garbage9;
+	private Sprite[] objtrash,objcan;
+	private TextureRegion trashcan1,trashcan2,trashcan3;
+	private int spawnx,spawny,random=1;
+	private static int quantity,level;
+	private boolean[] dragging;
+	private int mem=0,count=0,con=0,r=0;
+	private int[] time;
+	
 	@Override
-	public boolean ccTouchesBegan(MotionEvent event){//fungsi yang dijalankan ketika layar disentuh
-		CGPoint location = CCDirector.sharedDirector().convertToGL(CGPoint.ccp(event.getX(), event.getY()));
-		offX = (int)(location.x); 
-	    offY = (int)(location.y); 
-	    StringBuilder a = new StringBuilder();
-	    String teks;
-	    for (int i=quantity-1;i>=0;i--){
-	    	if (trash[i].getBoundingBox().contains(offX, offY)==true){
-	    		teks = a.append(i).toString();
-	    		Log.d("array ke", teks);
-	    		dragging[i]=true;
-	    		break;
-	    	}
-	    }
-	    Log.d("drag","start");
-		return true;
+	public void onLoadComplete() {
+		// TODO Auto-generated method stub
+
 	}
-	@Override
-	public boolean ccTouchesMoved(MotionEvent event) {//fungsi yang dijalankan ketika layar disentuh dan di drag
-		CGPoint location = CCDirector.sharedDirector().convertToGL(CGPoint.ccp(event.getX(), event.getY()));
-		offX = (int)(location.x); 
-	    offY = (int)(location.y); 
-	    for(int i=0;i<quantity;i++){
-	    if(dragging[i]==true){
-	    	trash[i].setPosition(offX, offY);
-	    }
-	    }
-	    Log.d("drag","drag");
-		return true;
-	}
-	@Override
-	public boolean ccTouchesEnded(MotionEvent event) {//fungsi yang dijalankan ketika layar telah selesai disentuh
-		CGSize winSize = CCDirector.sharedDirector().displaySize();
-		for (int i=0;i<quantity;i++){
-			if (dragging[i]==true){
-				if (i<3*quantity/9){
-					if (CGRect.intersects(trash[i].getBoundingBox(), trashcan[0].getBoundingBox())){
-						trash[i].setPosition(-1000,0);
-						chek++;
-						//sound :D
-						Context context = CCDirector.sharedDirector().getActivity();
-						SoundEngine.sharedEngine().playEffect(context,org.andengine.R.raw.sound);
-					}}
-				else if (i<6*quantity/9){
-					if (CGRect.intersects(trash[i].getBoundingBox(), trashcan[1].getBoundingBox())){
-						trash[i].setPosition(-1000,0);
-						chek++;
-						//sound :D
-						Context context = CCDirector.sharedDirector().getActivity();
-						SoundEngine.sharedEngine().playEffect(context,org.andengine.R.raw.sound);
-					}}
-				else if (i<9*quantity/9){
-					if (CGRect.intersects(trash[i].getBoundingBox(), trashcan[2].getBoundingBox())){
-						trash[i].setPosition(-1000,0);
-						chek++;
-						//sound :D
-						Context context = CCDirector.sharedDirector().getActivity();
-						SoundEngine.sharedEngine().playEffect(context,org.andengine.R.raw.sound);
-					}}
-				}
+private void createSpriteSpawnTimeHandler() {
+	
+    TimerHandler spriteTimerHandler;
+    float mEffectSpawnDelay = 1f;
+    spriteTimerHandler = new TimerHandler(mEffectSpawnDelay, true,
+    new ITimerCallback() {
+        @Override
+        public void onTimePassed(TimerHandler pTimerHandler) {
+        	StringBuilder a = new StringBuilder();
+        	String teks;
+        	mem++;
+            count++;
+        	cek(count);
+        	if (level>4 && level<7){
+        		if(count==random/2 || count==random){
+        			
+        		}
+        	}
+        	if (level>6 && level<9){
+        		if(count==random/3 || count ==2*random/3 || count==random){
+        			randomcan();
+        		}
+        		
+        	}
+        	if (level==9){
+        		if(count==random/4 || count ==2*random/4 || count==3*random/4 || count==random){
+        			randomcan();
+        		}
+        	}
+			time[3]=mem;
+			if (time[3]>9){
+				mem=0;
+				time[3]=0;
+				time[2]++;
 			}
-		 for(int j =0;j<quantity;j++){
-			 dragging[j]=false;
-		 }
-		 Log.d("drag","end");
-		 return true;
+			if(time[2]>6){
+				time[2]=0;
+				time[1]++;
+			}
+			if(time[1]>9){
+				time[1]=0;
+				time[0]++;
+			}
+			if (time[0]>6){
+				for(int i =0;i<4;i++){
+					time[i]=0;
+				}
+			}		
+			teks = a.append(time[0]).toString();
+			teks = a.append(time[1]).toString();
+			teks = a.append(":").toString();
+			teks = a.append(time[2]).toString();
+			teks = a.append(time[3]).toString();
+        	
+        	score.setText(teks);
+        }
+    });
+    getEngine().registerUpdateHandler(spriteTimerHandler);
 }
+public static void level(int lev){
+	level=lev;
+	quantity = 9*level;
+}
+public void cek(int t){
+	if(t==random){
+		if(con<quantity){
+		randomize();
+		con=0;
+		count=0;}
+		else{
+			score.setText("YOU WIN!");
+			score.setPosition(mCamera.getCenterX(), mCamera.getCenterY());
+		}
 	}
+	else if (t<random){
+		if (con==quantity){
+			score.setText("YOU WIN!");
+			score.setPosition(mCamera.getCenterX(), mCamera.getCenterY());
+		}
+	}
+	
+}
+public void randomcan(){
+	r++;
+	if(r>3){
+		r=0;
+	}
+	Log.d("",String.valueOf(r));
+	if (r==0){
+		objcan[0].setPosition(0, mCamera.getHeight()-objcan[0].getHeight());
+		objcan[1].setPosition(mCamera.getWidth()/2-objcan[1].getWidth()/2, mCamera.getHeight()-objcan[1].getHeight());
+		objcan[2].setPosition(mCamera.getWidth()-objcan[2].getWidth(), mCamera.getHeight()-objcan[2].getHeight());
+	}
+	if (r==1){
+		objcan[0].setPosition(mCamera.getWidth()/2-objcan[1].getWidth()/2, mCamera.getHeight()-objcan[1].getHeight());
+		objcan[1].setPosition(mCamera.getWidth()-objcan[2].getWidth(), mCamera.getHeight()-objcan[2].getHeight());
+		objcan[2].setPosition(0, mCamera.getHeight()-objcan[0].getHeight());
+	}
+	if (r==2){
+		objcan[0].setPosition(mCamera.getWidth()-objcan[2].getWidth(), mCamera.getHeight()-objcan[2].getHeight());
+		objcan[1].setPosition(0, mCamera.getHeight()-objcan[0].getHeight());
+		objcan[2].setPosition(mCamera.getWidth()/2-objcan[1].getWidth()/2, mCamera.getHeight()-objcan[1].getHeight());
+	}
+}
+public void randomize(){
+	Random rand = new Random();
+	for (int i=0;i<quantity;i++){
+	spawnx=rand.nextInt((int)mCamera.getWidth()-garbage1.getWidth());
+	spawny=rand.nextInt((int)mCamera.getHeight()-garbage1.getHeight()-trashcan1.getHeight());
+	objtrash[i].setPosition(spawnx, spawny);
+	}
+	random=rand.nextInt(quantity+level/2)+(quantity+level/2);
+	
+	
+}
+
+public void addobj(){
+	objtrash = new Sprite[quantity];
+	dragging =new boolean[quantity];
+	objcan = new Sprite[3];
+	for (int i=0;i<3;i++){
+	if (i==0){
+		objcan[i]=new Sprite(0,0,trashcan1);
+		mMainScene.attachChild(objcan[i]);
+		objcan[i].setPosition(0, mCamera.getHeight()-objcan[i].getHeight());
+	}
+	if (i==1){
+		objcan[i]=new Sprite(0,0,trashcan2);
+		mMainScene.attachChild(objcan[i]);
+		objcan[i].setPosition(mCamera.getWidth()/2-objcan[i].getWidth()/2, mCamera.getHeight()-objcan[i].getHeight());
+	}
+	if (i==2){
+		objcan[i]=new Sprite(0,0,trashcan3);
+		mMainScene.attachChild(objcan[i]);
+		objcan[i].setPosition(mCamera.getWidth()-objcan[i].getWidth(), mCamera.getHeight()-objcan[i].getHeight());	
+	}
+	}
+	for (int i=0;i<quantity;i++){
+		dragging[i]=false;
+		if (i<quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage1);	
+		}
+		else if (i<2*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage2);
+			}
+		else if (i<3*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage3);
+			}
+		else if (i<4*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage4);
+			}
+		else if (i<5*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage5);
+			}
+		else if (i<6*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage6);
+		}
+		else if (i<7*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage7);
+		}
+		else if (i<8*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage8);
+		}
+		else if (i<9*quantity/9){
+			objtrash[i] = new Sprite(0,0, garbage9);
+		}
+	mMainScene.attachChild(objtrash[i]);
+	}
+}
+	@Override
+	public Engine onLoadEngine() {
+		final Display display = getWindowManager().getDefaultDisplay();
+		    int cameraWidth = display.getWidth();
+		    int cameraHeight = display.getHeight();
+		    mCamera = new Camera(0, 0, cameraWidth, cameraHeight);
+		    return new Engine(new EngineOptions(true, ScreenOrientation.PORTRAIT,new RatioResolutionPolicy(cameraWidth, cameraHeight), mCamera));
+	}
+	@Override
+	public void onLoadResources() {
+		
+		mBitmapTextureAtlas = new BitmapTextureAtlas(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		garbage1 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "1.png",0, 0);
+		garbage2 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "2.png",100, 0);
+		garbage3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "3.png",200, 0);
+		garbage4 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "4.png",300, 0);
+		garbage5 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "5.png",400, 0);
+		garbage6 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "6.png",500, 0);
+		garbage7 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "7.png",0, 100);
+		garbage8 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "8.png",0, 200);
+		garbage9 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "9.png",0, 300);
+		trashcan1 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "trash1.png",100, 100);
+		trashcan2 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "trash2.png",200, 100);
+		trashcan3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "trash3.png",300, 100);
+		
+		
+		mEngine.getTextureManager().loadTexture(mBitmapTextureAtlas);
+		mFontTexture = new BitmapTextureAtlas(256, 256,
+				    TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+				mFont = new Font(mFontTexture, Typeface.create(Typeface.DEFAULT,
+				    Typeface.BOLD), 40, true, Color.BLACK);
+				mEngine.getTextureManager().loadTexture(mFontTexture);
+				mEngine.getFontManager().loadFont(mFont);
+	}
+	@Override
+	public Scene onLoadScene() {
+		time = new int[4];
+		mEngine.registerUpdateHandler(new FPSLogger());
+		    mMainScene = new Scene();
+		    mMainScene.setBackground(new ColorBackground(245/255f, 196/255f, 145/255f));
+		    addobj();
+		    randomize();
+		    String teks = "START!      ";
+		    score = new ChangeableText(0, 100, mFont, teks);
+		    score.setPosition(0,0);
+
+		    mMainScene.attachChild(score);
+		    mMainScene.setOnSceneTouchListener(this);	
+		    createSpriteSpawnTimeHandler();
+		    return mMainScene;
+	}
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		// TODO Auto-generated method stub
+		float touchX = pSceneTouchEvent.getX();
+		float touchY = pSceneTouchEvent.getY();
+
+		switch(pSceneTouchEvent.getAction()) {
+        case TouchEvent.ACTION_DOWN:
+        	for (int i=quantity-1;i>=0;i--){
+        		if (objtrash[i].contains(touchX, touchY)){
+        		dragging[i]=true;
+        		break;
+        		}
+        	}
+                break;
+        case TouchEvent.ACTION_MOVE:
+        	for (int i=0;i<quantity;i++){
+        		if (dragging[i]==true){
+        			objtrash[i].setPosition(pSceneTouchEvent.getX() - objtrash[i].getWidth() / 2, pSceneTouchEvent.getY() - objtrash[i].getHeight() / 2);
+        		}
+        	}
+                break;
+        case TouchEvent.ACTION_UP:
+        	for (int i=quantity-1;i>=0;i--){
+        		if (dragging[i]==true){
+        			if(i<quantity/3){
+        			if (objtrash[i].collidesWith(objcan[0])){
+        			objtrash[i].setPosition(-1000, 0);
+        			con++;
+        			}
+        			else{
+        				randomize();
+        				con=0;
+        				count=0;
+        			}
+        			}
+        			else if(i<2*quantity/3){
+            			if (objtrash[i].collidesWith(objcan[1])){
+            			objtrash[i].setPosition(-1000, 0);
+            			con++;
+            			}
+            			else{
+            			randomize();
+            			con=0;
+            			count=0;}
+            			}
+        			else if(i<3*quantity/3){
+            			if (objtrash[i].collidesWith(objcan[2])){
+            			objtrash[i].setPosition(-1000, 0);
+            			con++;
+            			}else{
+            			randomize();
+            			con=0;
+            			count=0;}
+            			}
+        		}
+        	}
+        	for (int i=quantity-1;i>=0;i--){
+        		dragging[i]=false;
+        	}
+                break;
+}
+return true;
+	}
+
+}
+	

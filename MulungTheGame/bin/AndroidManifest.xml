@@ -23,9 +23,10 @@
        	<activity android:name=".Splash"></activity>
 	    <activity android:name=".HighScore"></activity>
 	    <activity android:name=".Help"></activity>
+	    <activity android:name=".Game"></activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".TouchActivity"
+            android:name=".TouchIt"
             >
             
         </activity>
