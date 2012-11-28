@@ -30,8 +30,7 @@ Segi Usaha :
 ANALISIS KEBUTUHAN
 Software yang digunakan :
 Eclipse
-Cocos2D
 AndEngines
-   -  OpenGL ES 2.0
-   -  Android 4.0.3
+   -  OpenGL ES 1.0
+   -  Android 2.2-4.0.3
    -  Emulator 
