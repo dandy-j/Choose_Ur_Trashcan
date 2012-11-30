@@ -12,6 +12,13 @@ import android.widget.CheckBox;
 public class Splash extends Activity {
 	
 	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		startActivity(new Intent(Splash.this,Menu.class));
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
@@ -35,6 +42,8 @@ public class Splash extends Activity {
 		};
 		logotimer.start();
 	}
+
+	
 
 	
 
