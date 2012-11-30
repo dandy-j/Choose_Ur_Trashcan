@@ -1,7 +1,7 @@
 Panduan Instalasi
-   * minimum hardware/software requirements
+   * minimum hardware/software requirement : Android 2.2 - 4.0.3
    * how to install
-       download / copy
-       double click
-       etc
+       download MulungTheGame.apk
+       install in your Android
+       Play :D
 
