@@ -1,5 +1,7 @@
 package com.example.touchme;
+import java.io.IOException;
 import java.util.Random;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.timer.ITimerCallback;
@@ -12,7 +14,6 @@ import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.ChangeableText;
-import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
@@ -21,9 +22,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
-import org.anddev.andengine.util.HorizontalAlign;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -48,6 +47,7 @@ public class TouchIt extends BaseGameActivity implements IOnSceneTouchListener {
 	public String[] scores;
 	public static String skor;
 	public static String tex;
+	
 	@Override
 	public void onLoadComplete(){
 	}
@@ -229,7 +229,7 @@ public void addobj(){//menambahkan objek ke dalam layar game
 		    int cameraWidth = 480;
 		    int cameraHeight = 800;
 		    mCamera = new Camera(0, 0, cameraWidth, cameraHeight);
-		    return new Engine(new EngineOptions(true, ScreenOrientation.PORTRAIT,new RatioResolutionPolicy(cameraWidth, cameraHeight), mCamera));
+		    return new Engine(new EngineOptions(true, ScreenOrientation.PORTRAIT,new RatioResolutionPolicy(cameraWidth, cameraHeight), mCamera).setNeedsSound(true).setNeedsMusic(true));
 	}
 	@Override
 	public void onLoadResources() {//memuat semua gambar dan teks
@@ -252,8 +252,10 @@ public void addobj(){//menambahkan objek ke dalam layar game
 				    TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 				mFont = new Font(mFontTexture, Typeface.create(Typeface.DEFAULT,
 				    Typeface.BOLD), 40, true, Color.BLACK);
+				
 				mEngine.getTextureManager().loadTexture(mFontTexture);
 				mEngine.getFontManager().loadFont(mFont);
+				this.mEngine.enableVibrator(this);
 	}
 	@Override
 	public Scene onLoadScene() {//memuat layar game
@@ -300,6 +302,7 @@ public void addobj(){//menambahkan objek ke dalam layar game
         			if (objtrash[i].collidesWith(objcan[0])){
         			objtrash[i].setPosition(-1000, 0);
         			con++;
+        			this.mEngine.vibrate(100);
         			}
         			else{
         				randomize();
@@ -311,6 +314,7 @@ public void addobj(){//menambahkan objek ke dalam layar game
             			if (objtrash[i].collidesWith(objcan[1])){
             			objtrash[i].setPosition(-1000, 0);
             			con++;
+            			this.mEngine.vibrate(100);
             			}
             			else{
             			randomize();
@@ -321,6 +325,7 @@ public void addobj(){//menambahkan objek ke dalam layar game
             			if (objtrash[i].collidesWith(objcan[2])){
             			objtrash[i].setPosition(-1000, 0);
             			con++;
+            			this.mEngine.vibrate(100);
             			}
             			else{
             			randomize();
